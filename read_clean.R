@@ -2,7 +2,7 @@
 
 ## Change the working directory and file paths as appropriate
 
-setwd("~/Dropbox/Projects/Senscio/DSC480_sp_2025")
+#setwd("~/Dropbox/Projects/Senscio/DSC480_sp_2025")
 
 library(tidyverse)
 
@@ -32,3 +32,4 @@ report_full <- report %>%
   mutate(across(event_type, ~as.factor(.x)))
 
 ## add comment
+
