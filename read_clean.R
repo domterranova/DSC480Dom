@@ -11,8 +11,8 @@ library(tidyverse)
 #report <- read_csv("../data/2024_11_25_utilization_report.csv")
 
 # Toy data files- these have the row values for each column shuffled separately.
-events <- read_csv("../data/events_toy.csv")
-report <- read_csv("../data/report_toy.csv")
+events <- read_csv("/Users/dswizzle/Desktop/DSC480/DSC480Dom-main/events_toy.csv")
+report <- read_csv("/Users/dswizzle/Desktop/DSC480/DSC480Dom-main/report_toy.csv")
 
 
 ## A bit of cleaning
