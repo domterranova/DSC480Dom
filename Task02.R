@@ -9,16 +9,38 @@ editor_options:
 
 #Create new file and write code to replace date with columns for
 #days since coverage_start_date (days between event start days and coverage start days)
+This is the code we did in class
 ```{r}
 events_full %>% mutate(days_since_start = event_start_date - coverage_start_date) %>%
-  mutate(days_since_ibis = event_start_date - ibis_start_date) %>%
+  mutate(days_since_ibis = event_start_date - ibis_coverage_start_date) %>%
   select(coverage_start_date, event_start_date, days_since_start, ibis_coverage_start_date, days_since_ibis)
+```
+Edit code from class to only include the number of days
+```{r}
+events_full %>% mutate(days_since_start = event_start_date - coverage_start_date) %>%
+  mutate(days_since_ibis = event_start_date - ibis_coverage_start_date) %>%
+  select(days_since_start, days_since_ibis)
 ```
 
 #Create logical or 0, 1 columns for whether the event took place between
 #- coverage_start_date and ibis_coverage_start_date, and whether 
 #between - ibis_coverage_start_date and ibis_coverage_end_date
 
+1 means it is in between 0 means it is not
+```{r}
+events_full %>%
+  mutate(
+    days_since_start = event_start_date - coverage_start_date,
+    days_since_ibis = event_start_date - ibis_coverage_start_date,
+    between_coverage_ibis = event_start_date >= coverage_start_date & event_start_date < ibis_coverage_start_date,
+    between_ibis_period = event_start_date >= ibis_coverage_start_date & event_start_date <= ibis_coverage_end_date
+  ) %>%
+  mutate(
+    between_coverage_ibis = as.integer(between_coverage_ibis),
+    between_ibis_period = as.integer(between_ibis_period)
+  ) %>%
+  select(days_since_start, days_since_ibis, between_coverage_ibis, between_ibis_period)
+```
 
 
 
