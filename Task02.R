@@ -9,11 +9,11 @@ editor_options:
 
 #Create new file and write code to replace date with columns for
 #days since coverage_start_date (days between event start days and coverage start days)
-
+```{r}
 events_full %>% mutate(days_since_start = event_start_date - coverage_start_date) %>%
   mutate(days_since_ibis = event_start_date - ibis_start_date) %>%
   select(coverage_start_date, event_start_date, days_since_start, ibis_coverage_start_date, days_since_ibis)
-
+```
 
 #Create logical or 0, 1 columns for whether the event took place between
 #- coverage_start_date and ibis_coverage_start_date, and whether 

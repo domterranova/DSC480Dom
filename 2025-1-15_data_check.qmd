@@ -88,6 +88,16 @@ Prints 421, indicating that there are 421 patients in the Unicare study.
 ```{r}
 patients %>% filter(str_detect(org_name, "Unicare - Study"))  %>% nrow()
   #  filter(org_name == "Unicare - Study") %>% nrow()
+
+report_full %>% filter(!is.na(first_reminder_complete_date))
+```
+
+```{r}
+report_full %>% select(pid, org_name, status, contains("covered_days"), consent_date) %>% distinct() %>% 
+    summarize(zdays_pre = sum(covered_days_pre_ibis == 0),
+              zdays_post = sum(covered_days_post_ibis == 0),
+              nadays = sum(is.na(covered_days_post_ibis)),
+              nocons = sum(is.na(consent_date)))
 ```
 
 Indicates there are 185,297 coverage days for Unicare members in the study pre Ibis admission
