@@ -43,7 +43,7 @@ events_full %>%
 ```
 
 #Check whether these agree with any existing 0,1 columns in the events data frame
-
+#What columns in the events data frame are we checking with? It does not make sense to check with any of the binaries of the diseases, and the remaining data does not contain binaries.
 
 #As a separate exercise, in the same file, write code that tweaks 
 #the dates by adding a random number of days. Use uniform on \[-5, 5\]. 
