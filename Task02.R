@@ -42,10 +42,7 @@ events_full %>%
   select(days_since_start, days_since_ibis, between_coverage_ibis, between_ibis_period)
 ```
 
-
-
 #Check whether these agree with any existing 0,1 columns in the events data frame
-
 
 
 #As a separate exercise, in the same file, write code that tweaks 
