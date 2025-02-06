@@ -1,0 +1,12 @@
+---
+title: "Task03"
+author: "Dominick Terranova"
+format: pdf
+---
+
+#Find count for Unicare-study during ibis coverage
+#Find count for MIIA not ibis
+#Find Count for Unicare-study not during ibis coverage
+#Find count for MIIA during ibis coverage
+#Make table for inpatient admits for each org
+#Make barplots and create new table for each
