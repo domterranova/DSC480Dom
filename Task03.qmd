@@ -3,10 +3,142 @@ title: "Task03"
 author: "Dominick Terranova"
 format: pdf
 ---
-
 #Find count for Unicare-study during ibis coverage
+```{r}
+library(dplyr)
+```
+
+#this code chunk is just to see exact names of organization
+```{r} 
+unique(events_full$org_name)
+```
+
+#Unicare-study during ibis coverage 
+
+#used ai to figure out how to use %in% in order to help me filter with both the study and unicare
+
+#%in% is just like a shorter way of using ==, allows us to not retype org_name
+```{r}
+UnicareDuringibis <- events_full %>%
+  filter(org_name %in% c("Unicare - Study", "Unicare"), during_ibis == 1) %>%
+  nrow()
+
+print(UnicareDuringibis)
+```
 #Find count for MIIA not ibis
+```{r}
+MIIANotIbis <- events_full %>%
+  filter(org_name %in% c("MIIA - Lee", "MIIA - Amherst","MIIA - Southbridge", "MIIA-Pittsfield","MIIA", "MIIA - Maynard", "MIIA - Walpole","MIIA - Taunton","MIIA - Sturbridge","MIIA - Dighton","MIIA - Southwick","MIIA - Triton","MIIA - Orange","MIIA - North Adams","MIIA - Tyngsboro"), during_ibis == 0) %>%
+  nrow()
+
+print(MIIANotIbis)
+```
 #Find Count for Unicare-study not during ibis coverage
+```{r}
+UnicareNotibis <- events_full %>%
+  filter(org_name %in% c("Unicare - Study", "Unicare"), during_ibis == 0) %>%
+  nrow()
+
+print(UnicareNotibis)
+```
 #Find count for MIIA during ibis coverage
-#Make table for inpatient admits for each org
+```{r}
+MIIADuringIbis <- events_full %>%
+  filter(org_name %in% c("MIIA - Lee", "MIIA - Amherst","MIIA - Southbridge", "MIIA-Pittsfield","MIIA", "MIIA - Maynard", "MIIA - Walpole","MIIA - Taunton","MIIA - Sturbridge","MIIA - Dighton","MIIA - Southwick","MIIA - Triton","MIIA - Orange","MIIA - North Adams","MIIA - Tyngsboro"), during_ibis == 1) %>%
+  nrow()
+
+print(MIIADuringIbis)
+```
+#Make table for inpatient admits for each org (Unicare and MIIA)
+#I am a little confused on what exactly inpatient admit is, so I am gonna assume that it is when the event_duration_days is more than 0
+
+#Here we created a table for inpatient MIIA
+```{r}
+MIIAInpatientAdmits <- events_full %>%
+  filter(org_name %in% c("MIIA - Lee", "MIIA - Amherst", "MIIA - Southbridge", "MIIA-Pittsfield", "MIIA", "MIIA - Maynard", "MIIA - Walpole", "MIIA - Taunton", "MIIA - Sturbridge", "MIIA - Dighton", "MIIA - Southwick", "MIIA - Triton", "MIIA - Orange", "MIIA - North Adams", "MIIA - Tyngsboro"), 
+         event_duration_days > 0) %>%
+  group_by(org_name) %>%
+  summarise(inpatient_count = n()) %>%
+  bind_rows(
+    tibble(org_name = "AllMIIA", inpatient_count = sum(.$inpatient_count))
+  )
+```
+
+#Create table for Unicare
+```{r}
+UnicareInpatientAdmits <- events_full %>%
+  filter(org_name %in% c("Unicare - Study", "Unicare"), 
+         event_duration_days > 0) %>%
+  group_by(org_name) %>%  
+  summarise(inpatient_count = n()) %>%
+  bind_rows(
+    tibble(org_name = "AllUnicare", inpatient_count = sum(.$inpatient_count))
+  )
+```
+
+#Combine the patient data
+```{r}
+```{r}
+MIIAInpatientAdmits <- events_full %>%
+  filter(org_name %in% c("MIIA - Lee", "MIIA - Amherst", "MIIA - Southbridge", "MIIA-Pittsfield", "MIIA", "MIIA - Maynard", "MIIA - Walpole", "MIIA - Taunton", "MIIA - Sturbridge", "MIIA - Dighton", "MIIA - Southwick", "MIIA - Triton", "MIIA - Orange", "MIIA - North Adams", "MIIA - Tyngsboro"), 
+         event_duration_days > 0) %>%
+  group_by(org_name) %>%
+  summarise(inpatient_count = n()) %>%
+  bind_rows(
+    tibble(org_name = "AllMIIA", inpatient_count = sum(.$inpatient_count))
+  )
+```
+
+#Create table for Unicare
+```{r}
+combined <- bind_rows(MIIAInpatientAdmits, UnicareInpatientAdmits)
+```
+
 #Make barplots and create new table for each
+#new tables
+```{r}
+print(UnicareInpatientAdmits)
+
+print(MIIAInpatientAdmits)
+```
+##barplot
+```{r}
+library(ggplot2)
+```
+
+#Compare data with Unicare study
+```{r}
+ggplot(UnicareInpatientAdmits, aes(x = org_name, y = inpatient_count, color = org_name, fill = org_name)) +
+  geom_bar(stat = "identity", show.legend = FALSE) +
+  labs(title = "Inpatient Admits for Unicare/Unicare-Study", 
+       x = "Group", 
+       y = "Inpatient Admit Count") +
+  theme_minimal()
+```
+
+```{r}
+ggplot(MIIAInpatientAdmits, aes(x = org_name, y = inpatient_count, color = org_name, fill = org_name)) +
+  geom_bar(stat = "identity", show.legend = TRUE) +
+  labs(title = "Inpatient Admits for MIIA", 
+       x = "Group", 
+       y = "Inpatient Admit Count") +
+  theme_minimal() +
+  theme(axis.title.x = element_blank(), #remove x-axis title
+        axis.text.x = element_blank(), 
+        )
+```
+
+#In this graph I want to compare AllMIIA and AllUnicare
+#First we have to filter out the two variables we want
+```{r}
+filter <- subset(combined, org_name %in% c("AllUnicare", "AllMIIA"))
+```
+
+```{r}
+ggplot(filter, aes(x = org_name, y = inpatient_count, color = org_name, fill = org_name)) +
+  geom_bar(stat = "identity", show.legend = FALSE) +
+  labs(title = "Inpatient Data MIIA vs Unicare", 
+       x = "Group", 
+       y = "Inpatient Admit Count") +
+  theme_minimal()
+```

@@ -11,7 +11,6 @@ editor_options:
 #days since coverage_start_date (days between event start days and coverage start days)
 Converts timestamps to the number of days since coverage_start_date in POSIXct format like the assignment says
 ```{r}
-colnames(report_full)
 
 colnames(events_full)
 
@@ -22,7 +21,11 @@ events_full <- events %>% # Converting Timestamps to Date Format
   rename_with(~str_replace(., "timestamp", "date"), contains("timestamp")) %>%
   mutate(across(event_type, ~ str_replace(.x, " ", "_"))) |> # Cleaning event_type Strings
   mutate(across(event_type, ~as.factor(.x))) #Converting event_type to Factor
+```
 
+```{r}
+
+colnames(report_full)
 #now do for report data
 report_full <- report %>%
   mutate(across(contains("timestamp"),
@@ -36,6 +39,8 @@ report_full <- report %>%
 Preview now
 ```{r}
 head(events_full)
+```
+```{r}
 head(report_full)
 ```
 

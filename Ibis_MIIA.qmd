@@ -139,7 +139,6 @@ MIIA_events <- MIIA_term %>%
 
 ```
 
-
 ```{r, echo=FALSE}
 #| label: patient-data
 ## Get patient data, HCC scores, observation times
@@ -162,9 +161,9 @@ obs_times <- rbind(ibis_term, MIIA_term) %>% select(pid, days) %>% distinct()
 
 Use both numerical and graphical summaries
 
-- Age, days and HCC score distributions, by cohort
-- Days under observation by cohort
-- Condition counts, by cohort
-- HCC scores, by cohort
-- Proportion with at least one admission, by cohort
-- number of admissions, by cohort proportions
+-   Age, days and HCC score distributions, by cohort
+-   Days under observation by cohort
+-   Condition counts, by cohort
+-   HCC scores, by cohort
+-   Proportion with at least one admission, by cohort
+-   number of admissions, by cohort proportions
