@@ -6,6 +6,7 @@ format: pdf
 editor_options: 
   chunk_output_type: console
 ---
+
 # I do not understand why there are negatives in some of the day counts sums in the code you gave us, what does it mean if the number is negative?
 
 This code changes how the code is displayed when rendered
@@ -85,6 +86,7 @@ idx_0 <- which(names(report_full) == "condition_count")
 ```
 
 Prints 421, indicating that there are 421 patients in the Unicare study.
+
 ```{r}
 patients %>% filter(str_detect(org_name, "Unicare - Study"))  %>% nrow()
   #  filter(org_name == "Unicare - Study") %>% nrow()
@@ -101,26 +103,31 @@ report_full %>% select(pid, org_name, status, contains("covered_days"), consent_
 ```
 
 Indicates there are 185,297 coverage days for Unicare members in the study pre Ibis admission
+
 ```{r}
 sum(report_full$covered_days_pre_ibis[report_full$org_name == "Unicare - Study"])
 ```
 
 Indicates there are 30,231 coverage days for Unicare members in the study post Ibis admission
+
 ```{r}
 sum(report_full$covered_days_post_ibis[report_full$org_name == "Unicare - Study"])
 ```
 
 Indicates there are 903,546 coverage days for all members pre Ibis admission
+
 ```{r}
 sum(report_full$covered_days_pre_ibis)
 ```
 
 Indicates there are 152,527 coverage days for all members post Ibis admission
+
 ```{r}
 sum(report_full$covered_days_post_ibis)
 ```
 
 This code chunk just confirms that each patient has their own unique ID
+
 ```{r}
 unique(events_full$event_type) 
 
@@ -128,6 +135,7 @@ events_full %>% select(pid) %>% distinct()
 ```
 
 \#### admits pre/post Create data with admission count
+
 ```{r}
 
 #######
@@ -152,6 +160,7 @@ post_ibis_admissions_count <- events_full %>% filter(event_start_date > ibis_cov
 #### admissions count totals Just Unicare admits pre/post
 
 Admission count for just UniCare
+
 ```{r}
 pre_ibis_admissions_count %>% filter(org_name == "Unicare - Study") %>% 
     summarize(unicare_pre_admits  = sum(admit_count))
@@ -163,6 +172,7 @@ post_ibis_admissions_count %>% filter(org_name == "Unicare - Study") %>%
 #### admissions count totals- All member
 
 Admission count total
+
 ```{r}
 pre_ibis_admissions_count %>% summarize(total_admits = sum(admit_count))
 
@@ -219,12 +229,14 @@ events_full %>% filter(event_start_date  > ibis_coverage_start_date) %>% filter(
 ```
 
 It must be I am filtering patients out
+
 ```{r}
 events_full %>% filter(pre_ibis_inpatient == 1) %>% group_by(pid) %>% summarize(count = n()) %>% summarize(sum(count))
 events_full %>% filter(post_ibis_inpatient == 1) %>% group_by(pid) %>% summarize(count = n()) %>% summarize(sum(count))
 ```
 
 ####. Inpatient days pre/post
+
 ```{r}
 
 #######
@@ -247,6 +259,7 @@ post_ibis_inpatient_days <-events_full %>% filter(event_start_date  > ibis_cover
 ```
 
 #### Inpatient days pre/post Unicare and All member
+
 ```{r}
 pre_ibis_inpatient_days %>% filter(org_name == "Unicare - Study") %>% summarize(total_days = sum(total_inpatient_days))
 post_ibis_inpatient_days %>% filter(org_name == "Unicare - Study") %>% summarize(total_days = sum(total_inpatient_days))
@@ -267,6 +280,7 @@ report_full %>% filter(ibis_coverage_start_date < coverage_start_date) %>%
 #### Coverage days pre/post Unicare and All member.
 
 We `filter(ibis_coverage_start_date < coverage_start_date)`
+
 ```{r}
 report_full %>% filter(ibis_coverage_start_date >= coverage_start_date) %>%
     mutate(pre_ibis_covered_days_check = ibis_coverage_start_date - coverage_start_date) %>% mutate(post_ibis_covered_days_check = ibis_coverage_end_date - ibis_coverage_start_date) %>% 
@@ -283,6 +297,7 @@ report_full %>% filter(ibis_coverage_start_date >= coverage_start_date) %>%
 ```
 
 Check the various columns in `events_full`
+
 ```{r}
 df_check <- events_full %>% select(pid, event_type, event_start_date, tablet_status, first_reminder_complete_date,
                        ibis_coverage_start_date, ibis_coverage_end_date, after_ibis_started, ibis_inpatient,

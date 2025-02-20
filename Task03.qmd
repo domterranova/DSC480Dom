@@ -10,6 +10,9 @@ format: pdf
 library(dplyr)
 ```
 
+```{r}
+source("Task02.qmd")
+```
 #this code chunk is just to see exact names of organization
 
 ```{r}

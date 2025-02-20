@@ -1,11 +1,11 @@
 ---
-  title: "Task_02 2/2/2025"
-author: Dominick Terranova
-date: 2025/02/2
+title: "Task02"
 format: pdf
-editor_options: 
-  chunk_output_type: console
 ---
+
+```{r}
+source("read_clean.R")
+```
 
 #Create new file and write code to replace date with columns for
 #days since coverage_start_date (days between event start days and coverage start days)
@@ -40,6 +40,7 @@ Preview now
 ```{r}
 head(events_full)
 ```
+
 ```{r}
 head(report_full)
 ```
@@ -102,3 +103,4 @@ table(mismatches$event_type, mismatches$pre_ibis, mismatches$pre_ibis_inpatient)
 #been superceded by a new dplyr verb, mutate(across()). 
 #Thus mutate_at(vars(contains("timestamp")), \~as.POSIXct(.x, format = "%Y-%m-%d %H:%M:%S")) 
 #Can be replaced with mutate(across(contains("timestamp"), \~as.POSIXct(.x, format = "%Y-%m-%d %H:%M:%S")))
+
