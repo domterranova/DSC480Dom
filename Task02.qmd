@@ -9,7 +9,7 @@ source("read_clean.R")
 
 #Create new file and write code to replace date with columns for
 #days since coverage_start_date (days between event start days and coverage start days)
-Converts timestamps to the number of days since coverage_start_date in POSIXct format like the assignment says
+#Converts timestamps to the number of days since coverage_start_date in POSIXct format like the assignment says
 ```{r}
 
 colnames(events_full)
@@ -36,7 +36,7 @@ report_full <- report %>%
   mutate(across(event_type, ~as.factor(.x))) #Converting event_type to Factor
 ```
 
-Preview now
+#Preview now
 ```{r}
 head(events_full)
 ```
